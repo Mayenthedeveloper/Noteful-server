@@ -11,7 +11,7 @@ const serializeNote = note => ({
   name: xss(note.name),
   date_modified: note.date_modified,
   content: xss(note.content),
-  folder: note.folder
+  folder_id: note.folder_id
 })
 
 notesRouter
@@ -25,8 +25,8 @@ notesRouter
       .catch(next)
   })
   .post(jsonParser, (req, res, next) => {
-    const { name, folder, content } = req.body
-    const newNote = { name, folder, content }
+    const { name, folder_id, content } = req.body
+    const newNote = { name, folder_id, content }
 
     for (const [key, value] of Object.entries(newNote))
       if (value == null)

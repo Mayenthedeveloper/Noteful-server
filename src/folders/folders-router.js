@@ -9,7 +9,7 @@ const jsonParser = express.json()
 
 const serializeFolder = folder => ({
     id: folder.id,
-    name: xss(user.name),
+    name: xss(folder.name),
   })
 
   foldersRouter
@@ -42,7 +42,7 @@ const serializeFolder = folder => ({
         res
           .status(201)
           .location(path.posix.join(req.originalUrl, `/${folder.id}`))
-          .json(serializeUser(folder))
+          .json(serializeFolder(folder))
       })
       .catch(next)
   })
@@ -66,7 +66,7 @@ const serializeFolder = folder => ({
       .catch(next)
   })
   .get((req, res, next) => {
-    res.json(serializeUser(res.folder))
+    res.json(serializeFolder(res.folder))
   })
   .delete((req, res, next) => {
     FoldersService.deleteFolder(
@@ -88,7 +88,7 @@ const serializeFolder = folder => ({
         })
     }
 
-    UsersService.updateFolder(
+    FoldersService.updateFolder(
       req.app.get('db'),
       req.params.folder_id,
       folderToUpdate
